@@ -20,48 +20,47 @@ A full-stack starter kit for implementing **role-based login and authentication*
 
 ## 📁 Folder Structure
 
+```bash
 backend/
 ├── config/
-│   └── db.js                       # MongoDB connection
+│   └── db.js                 # MongoDB connection
 ├── controllers/
-│   ├── authController.js          # User auth logic
-│   └── vendorController.js        # Vendor onboarding & logic
+│   ├── authController.js     # User auth logic
+│   └── vendorController.js   # Vendor onboarding & logic
 ├── middleware/
-│   └── authenticateToken.js       # JWT auth middleware
+│   └── authenticateToken.js  # JWT auth middleware
 ├── models/
-│   ├── User.js                    # User schema
-│   └── Vendor.js                  # Vendor schema
+│   ├── User.js               # User schema
+│   └── Vendor.js             # Vendor schema
 ├── routes/
-│   ├── auth.js                    # User auth routes
-│   └── authVendor.js              # Vendor auth/onboarding routes
-├── utils/                         # Utilities (e.g., token generator)
-│   └── (optional) generateToken.js
-├── tests/                         # API test files (if used)
-├── .env                           # Env variables
-├── app.js                         # App configuration (Express middleware)
-├── server.js                      # Entry point (loads app.js, connects DB)
+│   ├── auth.js               # User auth routes
+│   └── authVendor.js         # Vendor auth/onboarding routes
+├── utils/
+│   └── generateToken.js      # Token generator
+├── tests/                    # API test files (if used)
+├── .env                      # Env variables
+├── app.js                    # App configuration (Express middleware)
+├── server.js                 # Entry point (loads app.js, connects DB)
 ├── package.json
 └── package-lock.json
 
-
 webclient/
-├── public/
-│   └── ...                        # favicon, manifest, etc.
+├── public/                   # favicon, manifest, etc.
 ├── src/
 │   ├── api/
-│   │   └── authApi.js             # Handles axios calls for auth
+│   │   └── authApi.js        # Handles axios calls for auth
 │   ├── components/
-│   │   └── VendorOnboarding.js    # Component for vendor form
+│   │   └── VendorOnboarding.js  # Component for vendor form
 │   ├── pages/
-│   │   ├── login.js               # Login page
-│   │   └── register.js            # Register page
+│   │   ├── login.js          # Login page
+│   │   └── register.js       # Register page
 │   ├── App.js
 │   ├── App.css
 │   ├── index.js
-│   └── ...
-├── .env
+│   └── .env
 ├── package.json
 └── README.md
+
 
 
 ## 🛠️ Getting Started
