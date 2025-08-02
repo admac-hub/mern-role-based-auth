@@ -1,1 +1,7 @@
+# Backend environment variables
 .env
+.env.*
+
+# Frontend (React, optional)
+webclient/.env
+webclient/.env.*
