@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const sendVerificationEmail = require('../utils/sendVerificationEmail');
 
 const JWT_SECRET = process.env.JWT_SECRET || '685A2ADCD85C2D8E3E3BBCE5F1C6A';
 
-// Register user
+// =================== USER REGISTRATION WITH VERIFICATION ===================
 exports.registerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -16,36 +17,21 @@ exports.registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-      role: 'user',
-      isOnboarded: true,
-    });
+    const token = jwt.sign(
+      { firstName, lastName, email, password: hashedPassword, role: 'user' },
+      JWT_SECRET,
+      { expiresIn: '15m' }
+    );
 
-    await newUser.save();
+    await sendVerificationEmail(email, token);
 
-    const token = jwt.sign({ id: newUser._id, role: 'user' }, JWT_SECRET, {
-      expiresIn: '1h',
-    });
-
-    res
-      .cookie('token', token, {
-        httpOnly: true,
-        secure: false, // set to true in production with HTTPS
-        sameSite: 'Lax',
-        maxAge: 3600000, // 1 hour
-      })
-      .status(201)
-      .json({ message: 'User registered successfully' });
+    res.status(200).json({ message: 'Verification email sent. Please check your inbox.' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
-// Register vendor
+// =================== VENDOR REGISTRATION WITH VERIFICATION ===================
 exports.registerVendor = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -57,36 +43,64 @@ exports.registerVendor = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newVendorUser = new User({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-      role: 'vendor',
-      isOnboarded: false,
-    });
+    const token = jwt.sign(
+      { firstName, lastName, email, password: hashedPassword, role: 'vendor' },
+      JWT_SECRET,
+      { expiresIn: '15m' }
+    );
 
-    await newVendorUser.save();
+    await sendVerificationEmail(email, token);
 
-    const token = jwt.sign({ id: newVendorUser._id, role: 'vendor' }, JWT_SECRET, {
-      expiresIn: '1h',
-    });
-
-    res
-      .cookie('token', token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'Lax',
-        maxAge: 3600000,
-      })
-      .status(201)
-      .json({ message: 'Vendor registered successfully' });
+    res.status(200).json({ message: 'Verification email sent. Please check your inbox.' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
-// Login for user or vendor
+// =================== EMAIL VERIFICATION ENDPOINT ===================
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.query;
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const { firstName, lastName, email, password, role } = decoded;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.redirect('http://localhost:3000/login?alreadyVerified=true');
+    }
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      isOnboarded: role === 'user',
+    });
+
+    await newUser.save();
+
+    const authToken = jwt.sign({ id: newUser._id, role }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.cookie('token', authToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'Lax',
+      maxAge: 3600000,
+    });
+
+    if (role === 'vendor') {
+      return res.redirect('http://localhost:3000/vendor/onboarding');
+    } else {
+      return res.redirect('http://localhost:3000');
+    }
+  } catch (err) {
+    return res.status(400).send('Invalid or expired verification link.');
+  }
+};
+
+// =================== LOGIN (USER OR VENDOR) ===================
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
