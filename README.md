@@ -74,6 +74,13 @@ webclient/
    - `cd backend`
    - `npm install`
 
+
+## 🔒 Environment Variables
+
+The `.env` file is **intentionally excluded** from the repository via `.gitignore` to protect sensitive credentials like database URIs and JWT secrets.
+To run the project locally, you need to create your own `.env` file inside the `/backend` folder.
+
+
 2. **Create a `.env` file inside `/backend` and add:**
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
