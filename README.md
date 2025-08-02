@@ -104,6 +104,13 @@ Multi-role platforms (vendors, clients, admins)
 Marketplaces (fitness, wellness, coaching, etc.)
 SaaS starter templates with secure login systems
 
+## 🔭 Roadmap
+
+- [ ] Add email verification
+- [ ] Add forgot/reset password flow
+- [ ] Add admin dashboard route
+- [ ] Add mobile login screen (React Native)
+
 
 🤝 Contributing
 Forks, stars, and pull requests are welcome!

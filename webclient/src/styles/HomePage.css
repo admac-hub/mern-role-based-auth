@@ -1,0 +1,58 @@
+.home-container {
+  background: linear-gradient(to bottom right, #fdfcfb, #e2d1c3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  backdrop-filter: blur(6px); /* subtle blur effect */
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.card {
+  border-radius: 3rem; /* extra-rounded */
+  background-color: #ffffff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.25);
+}
+
+.card h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #333;
+}
+
+.card p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #3cba92;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2aa179;
+}
+
+.btn-outline-success:hover,
+.btn-outline-dark:hover {
+  transform: scale(1.03);
+}
+
+@media (max-width: 576px) {
+  .card {
+    padding: 2rem 1rem;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authApi from '../api/authApi';
+import '../styles/login.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,40 +32,42 @@ const Login = () => {
     }
   };
 
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p style={{ color: 'red' }}>{message}</p>}
-      <p style={{ marginTop: '1rem' }}>Don’t have an account?</p>
-      <div>
-        <button onClick={() => navigate('/register?role=user')}>
-          Sign up as User
-        </button>
-        <button onClick={() => navigate('/register?role=vendor')} style={{ marginLeft: '1rem' }}>
-          Sign up as Vendor
-        </button>
+    return (
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '400px' }}>
+        <h2 className="text-center mb-4">Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <input
+              type="email"
+              name="email"
+              className="form-control"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-success w-100">
+            Login
+          </button>
+        </form>
+        {message && <p className="text-danger text-center mt-3">{message}</p>}
       </div>
     </div>
   );
+
 };
 
 export default Login;
