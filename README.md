@@ -115,4 +115,7 @@ This is a work-in-progress starter — feel free to extend it.
 This project is licensed under the MIT License — you're free to use, modify, and distribute it, both privately and commercially. Just keep the original copyright.
 
 See the [LICENSE](./LICENSE) file for more details.
+![GitHub last commit](https://img.shields.io/github/last-commit/admac-hub/mern-role-based-auth)
+![GitHub forks](https://img.shields.io/github/forks/admac-hub/mern-role-based-auth?style=social)
+![GitHub stars](https://img.shields.io/github/stars/admac-hub/mern-role-based-auth?style=social)
 
