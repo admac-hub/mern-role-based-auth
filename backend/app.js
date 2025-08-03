@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const passport = require('passport');
+require('./config/passport'); // ⬅️ Google strategies
+
 
 const cookieParser = require('cookie-parser');
 
@@ -16,6 +19,9 @@ app.use(cors({
 
 // Middleware
 app.use(express.json()); // Middleware to parse JSON
+
+// Initialize Passport
+app.use(passport.initialize());
 
 // Routes
 const authRoutes = require('./routes/auth');
