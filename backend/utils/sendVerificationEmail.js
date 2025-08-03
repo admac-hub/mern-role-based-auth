@@ -12,7 +12,7 @@ const sendVerificationEmail = async (email, token) => {
   const verificationLink = `http://localhost:5000/api/auth/verify-email?token=${token}`;
 
   const mailOptions = {
-    from: `"Mern Auth" <${process.env.GMAIL_USER}>`,
+    from: `"Authentication" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: 'Verify your email address',
     html: `

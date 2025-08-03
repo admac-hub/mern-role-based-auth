@@ -23,6 +23,7 @@ exports.registerUser = async (req, res) => {
       { expiresIn: '15m' }
     );
 
+    console.log("🚀 Registering user:", email);
     await sendVerificationEmail(email, token);
 
     res.status(200).json({ message: 'Verification email sent. Please check your inbox.' });
@@ -93,7 +94,7 @@ exports.verifyEmail = async (req, res) => {
     if (role === 'vendor') {
       return res.redirect('http://localhost:3000/vendor/onboarding');
     } else {
-      return res.redirect('http://localhost:3000');
+      return res.redirect('http://localhost:3000/login');
     }
   } catch (err) {
     return res.status(400).send('Invalid or expired verification link.');
