@@ -6,7 +6,6 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract role from URL query string
   const queryParams = new URLSearchParams(location.search);
   const role = queryParams.get('role') || 'user';
 
@@ -15,29 +14,35 @@ const Register = () => {
     lastName: '',
     email: '',
     password: '',
-    category: '', // only used if vendor
+    category: '', // Only for vendors
   });
 
-  const handleChange = (e) => {
-  setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-};
+  const [submitting, setSubmitting] = useState(false);
 
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
     try {
+      setSubmitting(true);
+
       const data = role === 'vendor' ? formData : { ...formData, category: undefined };
 
-      // ✅ If vendor, include credentials to save the cookie
       if (role === 'vendor') {
-        await authApi.register(role, data, true); // pass withCredentials flag
-        navigate('/vendor/onboarding');
+        await authApi.register(role, data, true); // send cookie
       } else {
         await authApi.register(role, data);
-        navigate('/login');
       }
+
+      navigate(`/email-sent?role=${role}`);
     } catch (err) {
       console.error('Registration error:', err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -45,14 +50,43 @@ const Register = () => {
     <div>
       <h2>{role === 'vendor' ? 'Vendor Registration' : 'User Registration'}</h2>
       <form onSubmit={handleSubmit}>
-        <input name="firstName" placeholder="First Name" onChange={handleChange} required />
-        <input name="lastName" placeholder="Last Name" onChange={handleChange} required />
-        <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
-        <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
+        <input
+          name="firstName"
+          placeholder="First Name"
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="lastName"
+          placeholder="Last Name"
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          onChange={handleChange}
+          required
+        />
         {role === 'vendor' && (
-          <input name="category" placeholder="Category" onChange={handleChange} required />
+          <input
+            name="category"
+            placeholder="Business Category"
+            onChange={handleChange}
+            required
+          />
         )}
-        <button type="submit">Register</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Registering...' : 'Register'}
+        </button>
       </form>
     </div>
   );

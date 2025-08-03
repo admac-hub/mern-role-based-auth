@@ -54,15 +54,15 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       {message && <p style={{ color: 'red' }}>{message}</p>}
-      <p style={{ marginTop: '1rem' }}>Don’t have an account?</p>
-      <div>
+      {/* <p style={{ marginTop: '1rem' }}>Don’t have an account?</p> */}
+      {/* <div>
         <button onClick={() => navigate('/register?role=user')}>
           Sign up as User
         </button>
         <button onClick={() => navigate('/register?role=vendor')} style={{ marginLeft: '1rem' }}>
           Sign up as Vendor
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
