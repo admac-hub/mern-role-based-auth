@@ -14,7 +14,6 @@ const Register = () => {
     lastName: '',
     email: '',
     password: '',
-    category: '', // Only for vendors
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -29,15 +28,7 @@ const Register = () => {
 
     try {
       setSubmitting(true);
-
-      const data = role === 'vendor' ? formData : { ...formData, category: undefined };
-
-      if (role === 'vendor') {
-        await authApi.register(role, data, true); // send cookie
-      } else {
-        await authApi.register(role, data);
-      }
-
+      await authApi.register(role, formData, role === 'vendor');
       navigate(`/email-sent?role=${role}`);
     } catch (err) {
       console.error('Registration error:', err);
@@ -76,14 +67,6 @@ const Register = () => {
           onChange={handleChange}
           required
         />
-        {role === 'vendor' && (
-          <input
-            name="category"
-            placeholder="Business Category"
-            onChange={handleChange}
-            required
-          />
-        )}
         <button type="submit" disabled={submitting}>
           {submitting ? 'Registering...' : 'Register'}
         </button>
