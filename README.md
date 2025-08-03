@@ -1,65 +1,115 @@
-# MERN Role-Based Authentication System
+# 🚀 MERN Role-Based Authentication System
 
-A full-stack starter kit for implementing **role-based login and authentication** using the **MERN stack** (MongoDB, Express, React/React Native, Node.js). Includes secure user and vendor flows with JWT stored in **HTTP-only cookies**, password hashing, and a scalable onboarding process.
+A full-stack starter kit for implementing **secure, role-based login and authentication** using the **MERN stack** (MongoDB, Express, React/React Native, Node.js). Built for developers looking to ship fast with clean, scalable code.
 
-## 🚀 Features
+Includes:
+- ✅ Email verification with token
+- ✅ Separate flows for users & vendors
+- ✅ Vendor onboarding form
+- ✅ Secure login with HTTP-only cookies
 
-- 🔐 **Role-based Authentication** — separate flows for users and vendors  
-- 🍪 **JWT + HTTP-only Cookies** — secure token storage  
-- 🔑 **Secure Password Hashing** with `bcrypt`  
-- 🧾 **Vendor Onboarding** — business name, category, phone, address  
-- 🧪 **RESTful API** for easy frontend/mobile integration  
-- 🧱 Scalable project structure  
+---
 
-## 📦 Tech Stack
+## 🔐 Features
 
-- **Backend:** Node.js, Express.js  
-- **Frontend:** React (or React Native)  
-- **Database:** MongoDB + Mongoose  
-- **Auth:** JSON Web Tokens (JWT), Cookies  
+- **Role-Based Authentication** — separate user/vendor access flows  
+- **JWT + HTTP-only Cookies** — safe & secure token storage  
+- **Password Hashing** — uses `bcrypt` for encryption  
+- **Vendor Onboarding** — name, category, phone, address, and more  
+- **Email Verification** — token sent via custom email sender  
+- **Clean Architecture** — scalable folder structure & RESTful APIs  
+
+---
+
+## 🧱 Tech Stack
+
+| Layer       | Tech                       |
+|-------------|----------------------------|
+| Backend     | Node.js, Express.js        |
+| Frontend    | React or React Native      |
+| Database    | MongoDB + Mongoose         |
+| Auth        | JWT, bcrypt, cookies       |
+| Email       | Nodemailer (custom config) |
 
 ## 📁 Folder Structure
 
 ```bash
 backend/
 ├── config/
-│   └── db.js                 # MongoDB connection
-├── controllers/
-│   ├── authController.js     # User auth logic
-│   └── vendorController.js   # Vendor onboarding & logic
-├── middleware/
-│   └── authenticateToken.js  # JWT auth middleware
-├── models/
-│   ├── User.js               # User schema
-│   └── Vendor.js             # Vendor schema
-├── routes/
-│   ├── auth.js               # User auth routes
-│   └── authVendor.js         # Vendor auth/onboarding routes
-├── utils/
-│   └── generateToken.js      # Token generator
-├── tests/                    # API test files (if used)
-├── .env                      # Env variables
-├── app.js                    # App configuration (Express middleware)
-├── server.js                 # Entry point (loads app.js, connects DB)
+│   └── db.js                        # MongoDB connection config
+
+├── controllers/                    # Business logic layer
+│   ├── authController.js
+│   └── vendorController.js
+
+├── middleware/                     # Express middleware
+│   └── authenticateToken.js
+
+├── models/                         # Mongoose schemas
+│   ├── User.js
+│   └── Vendor.js
+
+├── routes/                         # API routes
+│   ├── auth.routes.js              # User auth routes
+│   └── vendor.routes.js            # Vendor routes
+
+├── services/                       # External services (e.g. emails)
+│   └── sendVerificationEmail.js
+
+├── tests/                          # Optional: HTTP or unit tests
+│   └── api-tests.http
+
+├── utils/                          # Helper functions (optional)
+│   └── generateToken.js            # If you extract token logic here
+
+├── .env
+├── .gitignore
+├── app.js                          # App config: middleware, routers
+├── server.js                       # Entry point: connects DB + launches app
 ├── package.json
 └── package-lock.json
 
+
 webclient/
-├── public/                   # favicon, manifest, etc.
+├── public/
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+
 ├── src/
-│   ├── api/
-│   │   └── authApi.js        # Handles axios calls for auth
-│   ├── components/
-│   │   └── VendorOnboarding.js  # Component for vendor form
-│   ├── pages/
-│   │   ├── login.js          # Login page
-│   │   └── register.js       # Register page
+│   ├── api/                  # Axios logic, all API modules here
+│   │   └── authApi.js
+
+│   ├── components/           # Reusable UI components
+│   │   ├── AuthForm.js
+│   │   └── VendorOnboarding.js
+
+│   ├── pages/                # Full pages/views
+│   │   ├── Homepage.js
+│   │   └── auth/
+│   │       ├── Login.js
+│   │       └── Register.js
+
+│   ├── styles/               # Global and modular styles
+│   │   ├── App.css
+│   │   └── index.css
+
+│   ├── utils/                # Utility functions/helpers (optional)
+│   │   └── validateForm.js (example)
+
 │   ├── App.js
-│   ├── App.css
 │   ├── index.js
-│   └── .env
+│   └── setupTests.js
+
+├── .env
+├── .gitignore
 ├── package.json
+├── package-lock.json
 └── README.md
+
 
 
 
@@ -86,18 +136,12 @@ PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 CLIENT_URL=http://localhost:3000
+GMAIL_USER= create_your_goodlepass@account.com
+GMAIL_PASS= your_key
 
 3. **Run the backend server**
 - `npm run dev`
 
-🧪 API Endpoints
-| Route                       | Method | Description             |
-| --------------------------- | ------ | ----------------------- |
-| `/api/auth/register`        | POST   | Register user           |
-| `/api/auth/login`           | POST   | Login user              |
-| `/api/auth/vendor/register` | POST   | Register vendor         |
-| `/api/auth/vendor/login`    | POST   | Login vendor            |
-| `/api/vendor/onboard`       | POST   | Complete vendor profile |
 
 🌱 Use Cases
 Multi-role platforms (vendors, clients, admins)
@@ -115,5 +159,12 @@ This is a work-in-progress starter — feel free to extend it.
 This project is licensed under the MIT License — you're free to use, modify, and distribute it, both privately and commercially. Just keep the original copyright.
 
 See the [LICENSE](./LICENSE) file for more details.
+
+☕ Support My Work
+If this project saved you time or helped you ship faster, consider buying me a coffee:
+👉 buymeacoffee.com/devacuko
+
+
+
 
 
